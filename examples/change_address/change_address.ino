@@ -163,7 +163,8 @@ void setup() {
 
   scanner();
 
-  Serial.println("Please reconnect your device to verify address persistence!");
+  Serial.println("Please power off your device");
+  Serial.println("wait 10 secs and power on the device again, to verify address persistence!");
 
 }
 

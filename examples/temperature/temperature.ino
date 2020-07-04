@@ -2,7 +2,7 @@
 
   GarminLidarliteV4 Arduino Library
 
-  This example shows methods for running the LIDAR-Lite v4 LED and read distance continuous.
+  This example shows how to read the temerature from LIDAR-Lite v4 LED sensor.
 
   *** NOTE ***
   The LIDAR-Lite v4 LED is strictly a 3.3V system. The Arduino Due is a
@@ -34,8 +34,6 @@
 #include <Wire.h>
 #include "GarminLidarliteV4.h"
 
-#define FAST_I2C
-
 GarminLidarliteV4 lidar4;
 
 void setup()
@@ -46,13 +44,6 @@ void setup()
 
   // Initialize Arduino I2C (for communication to LidarLite)
   Wire.begin();
-#ifdef FAST_I2C
-#if ARDUINO >= 157
-  Wire.setClock(400000UL); // Set I2C frequency to 400kHz (for Arduino Due)
-#else
-  TWBR = ((F_CPU / 400000UL) - 16) / 2; // Set I2C frequency to 400kHz
-#endif
-#endif
 
   // ----------------------------------------------------------------------
   // The LIDAR-Lite v4 LED is strictly a 3.3V system. The Arduino Due is a
@@ -95,21 +86,10 @@ void setup()
   lidar4.configure(0);
 }
 
-
 void loop()
 {
-  uint16_t distance;
-  uint8_t  newDistance;
+  Serial.print("Board celsius temperature: ");
+  Serial.println(lidar4.readTemperature());
+  delay(1000);
 
-  newDistance = lidar4.distanceContinuous(&distance);
-  if (newDistance) {
-    Serial.print("distance ");
-    Serial.print(distance);
-    Serial.println(" cm.");
-  }
-
-  delay(1);
 }
-
-
-

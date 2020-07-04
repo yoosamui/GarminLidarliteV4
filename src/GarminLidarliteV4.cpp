@@ -57,9 +57,78 @@ void GarminLidarliteV4::notifyWriteError(byte reg)
 {
     notifyError(reg, 1);
 }
+
 void GarminLidarliteV4::notifyReadError(byte reg)
 {
     notifyError(reg, 0);
+}
+
+void GarminLidarliteV4::printVersion(uint8_t address)
+{
+    char version[512];
+    uint8_t dataBytes[12];
+    uint8_t *nrfVerString;
+    uint16_t *lrfVersion;
+    uint8_t *hwVersion;
+    uint8_t i;
+
+    read(0x30, dataBytes, 11, 0x62);
+    nrfVerString = dataBytes;
+
+    nrfVerString = dataBytes;
+    Serial.print("nRF Software Version  - ");
+    for (i = 0; i < 11; i++) {
+        Serial.write(nrfVerString[i]);
+    }
+    Serial.println("");
+
+    //===========================================
+    // Print LRF Firmware Version
+    //===========================================
+    read(0x72, dataBytes, 2, 0x62);
+    lrfVersion = (uint16_t *)dataBytes;
+    Serial.print("LRF Firmware Version  - v");
+    Serial.print((*lrfVersion) / 100);
+    Serial.print(".");
+    Serial.print((*lrfVersion) % 100);
+    Serial.println("");
+
+    //===========================================
+    // Print Hardware Version
+    //===========================================
+    read(0xE1, dataBytes, 1, 0x62);
+    hwVersion = dataBytes;
+    Serial.print("Hardware Version      - ");
+    switch (*hwVersion) {
+        case 16:
+            Serial.println("RevA");
+            break;
+        default:
+            Serial.println("????");
+            break;
+    }
+}
+
+// ----------------------------------------------------------------------
+// ** One method of increasing the measurement speed of the
+//    LIDAR-Lite v4 LED is to adjust the number of acquisitions taken
+//    per measurement from the default of 20. For max speed you
+//    can set  this value to 0x00.
+// ** Note that when reducing the number of acquisitions taken per
+//    measurement from the default, repeatability of measurements is
+//    reduced.
+// ----------------------------------------------------------------------
+bool GarminLidarliteV4::setAccuracyMode(uint8_t value, uint8_t address)
+{
+    uint8_t dataByte = value;
+    return write(0xEB, &dataByte, 1, address);
+}
+
+int GarminLidarliteV4::readTemperature(uint8_t address)
+{
+    uint8_t dataByte;
+    read(BOARD_TEMPERATURE, &dataByte, 1, address);
+    return dataByte;
 }
 
 /*------------------------------------------------------------------------------
@@ -153,8 +222,7 @@ uint8_t GarminLidarliteV4::distanceContinuous(uint16_t *distance, uint8_t addres
 
         // Read new distance data from device registers
         *distance = readDistance(address);
-        //      Serial.println("-------------------------");
-        //    Serial.println(*distance);
+
         // Report to calling function that we have new data
         newDistance = 1;
     }
