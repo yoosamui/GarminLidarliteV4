@@ -55,6 +55,7 @@ class GarminLidarliteV4
                                uint8_t lidarliteAddress = LIDARLITE_ADDR_DEFAULT);
 
     bool useBothAddresses();
+    uint8_t distanceContinuous(uint16_t* distance, uint8_t address);
 
   private:
     enum {

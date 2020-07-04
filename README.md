@@ -9,7 +9,7 @@ platform with a template for their own application code.
 
 For detailed specifications, pinout, and connection diagrams, see the manuals linked at the above product pages.
 
-***A Note on Compatibility:*** *This library supports the LIDAR-Lite v4 Minor interface changes have occurred between LIDAR-Lite v3, v3HP, and previous versions. Backwards-compatibility of this library is largely preserved, though support is not directly provided for v1, v2 and v3.*
+***A Note on Compatibility:*** *This library supports the LIDAR-Lite v4 only. Support is not provided for v1, v2 and v3.*
 
 ## Installation instructions
 To install, download this repository and place in your Arduino libraries folder or use the Arduino Library Manager. If you need help, follow the instructions here: [http://arduino.cc/en/Guide/Libraries](http://arduino.cc/en/Guide/Libraries).

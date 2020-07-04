@@ -34,8 +34,11 @@
 
 // clang-format on
 
+//#define DEBUGME
+
 void GarminLidarliteV4::notifyError(byte reg, uint8_t mode)
 {
+#ifdef DEBUGME
     if (!Serial.available()) return;
 
     Serial.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -47,6 +50,7 @@ void GarminLidarliteV4::notifyError(byte reg, uint8_t mode)
     }
 
     Serial.println(reg, HEX);
+#endif
 }
 
 void GarminLidarliteV4::notifyWriteError(byte reg)
@@ -125,6 +129,38 @@ void GarminLidarliteV4::configure(uint8_t configuration, uint8_t lidarliteAddres
         notifyWriteError(QUICK_TERMINATION);
 
 } /* GarminLidarliteV4::configure */
+
+//---------------------------------------------------------------------
+// Read Continuous Distance Measurements
+//
+// The most recent distance measurement can always be read from
+// device registers. Polling for the BUSY flag in the STATUS
+// register can alert the user that the distance measurement is new
+// and that the next measurement can be initiated. If the device is
+// BUSY this function does nothing and returns 0. If the device is
+// NOT BUSY this function triggers the next measurement, reads the
+// distance data from the previous measurement, and returns 1.
+//---------------------------------------------------------------------
+uint8_t GarminLidarliteV4::distanceContinuous(uint16_t *distance, uint8_t address)
+{
+    uint8_t newDistance = 0;
+    //    Serial.println(address, HEX);
+    // Check on busyFlag to indicate if device is idle
+    // (meaning = it finished the previously triggered measurement)
+    if (getBusyFlag(address) == 0) {
+        // Trigger the next range measurement
+        takeRange(address);
+
+        // Read new distance data from device registers
+        *distance = readDistance(address);
+        //      Serial.println("-------------------------");
+        //    Serial.println(*distance);
+        // Report to calling function that we have new data
+        newDistance = 1;
+    }
+
+    return newDistance;
+}
 
 /*------------------------------------------------------------------------------
 Enable or sidabe Flash storage
