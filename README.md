@@ -10,7 +10,7 @@ platform with a template for their own application code.
 For detailed specifications, pinout, and connection diagrams, see the manuals linked at the above product pages.
 LIDAR-Lite Arduino Library (https://github.com/garmin/LIDARLite_Arduino_Library)
 
-***A Note on Compatibility:*** *This library supports the LIDAR-Lite v4 only. Support is not provided.
+***A Note on Compatibility:*** *This library supports only the LIDAR-Lite v4. Support is not provided.
 
 ## Installation instructions
 To install, download this repository and place in your Arduino libraries folder or use the Arduino Library Manager. If you need help, follow the instructions here: [http://arduino.cc/en/Guide/Libraries](http://arduino.cc/en/Guide/Libraries).
@@ -37,7 +37,7 @@ This example shows how to read the temerature from LIDAR-Lite v4 LED sensor.
 
 ## Version History
 
-* [1.0.0](https://github.com/garmin/LIDARLite_Arduino_Library) - Initial release
+* [1.0.0](https://github.com/yoosamui/GarminLidarliteV4) - Initial release
 
 ## Raspberry Pi Library for LIDAR-Lite v3
 * [LIDAR-Lite v3 on Pi](https://github.com/garmin/LIDARLite_RaspberryPi_Library/) - Basic support available for Raspberry Pi 3B+
