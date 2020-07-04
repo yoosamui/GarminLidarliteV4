@@ -1,17 +1,15 @@
-# LIDAR-Lite Arduino Library
+# GarminLidarliteV4 Arduino Library
 
-* [Product Page: LIDAR-Lite v3](https://buy.garmin.com/en-US/US/p/557294) - See product page for operating manual
-* [Product Page: LIDAR-Lite v3HP](https://buy.garmin.com/en-US/US/p/578152) - See product page for operating manual
 * [Product Page: LIDAR-Lite v4 LED](https://buy.garmin.com/en-US/US/p/610275) - See product page for operating manual
 * [Product Support](https://support.garmin.com) - Please direct any support issues to Garmin's Support Team. They're smart, helpful, and super nice!
 
-This library provides quick access to basic functions of LIDAR-Lite
+This library provides quick access to basic functions of LIDAR-Lite v4
 via the Arduino interface. Additionally, it can provide a user of any
 platform with a template for their own application code.
 
 For detailed specifications, pinout, and connection diagrams, see the manuals linked at the above product pages.
 
-***A Note on Compatibility:*** *Minor interface changes have occurred between LIDAR-Lite v3, v3HP, and previous versions. Backwards-compatibility of this library is largely preserved, though support is not directly provided for v1 and v2.*
+***A Note on Compatibility:*** *This library supports the LIDAR-Lite v4 Minor interface changes have occurred between LIDAR-Lite v3, v3HP, and previous versions. Backwards-compatibility of this library is largely preserved, though support is not directly provided for v1, v2 and v3.*
 
 ## Installation instructions
 To install, download this repository and place in your Arduino libraries folder or use the Arduino Library Manager. If you need help, follow the instructions here: [http://arduino.cc/en/Guide/Libraries](http://arduino.cc/en/Guide/Libraries).
@@ -58,4 +56,5 @@ Operation examples for LIDAR-Lite v4 LED.
 
 ## License
 Copyright (c) 2018 Garmin Ltd. or its subsidiaries. Distributed under the Apache 2.0 License.
+Maintainer Juan R. Gonzalez
 See [LICENSE](LICENSE) for further details.
