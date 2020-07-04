@@ -1,4 +1,35 @@
+/*------------------------------------------------------------------------------
 
+  GarminLidarliteV4 Arduino Library
+
+
+  Use this sketch to configure I2C addresses.
+
+  *** NOTE ***
+  The LIDAR-Lite v4 LED is strictly a 3.3V system. The Arduino Due is a
+  3.3V system and is recommended for use with the LIDAR-Lite v4 LED.
+  Care MUST be taken if connecting to a 5V system such as the Arduino Uno.
+  See comment block in the setup() function for details on I2C connections.
+  It is recommended to use a voltage level-shifter if connecting the GPIO
+  pins to any 5V system I/O.
+
+  Connections:
+  LIDAR-Lite 5 VDC   (pin 1) to Arduino 5V
+  LIDAR-Lite Ground  (pin 2) to Arduino GND
+  LIDAR-Lite I2C SDA (pin 3) to Arduino SDA
+  LIDAR-Lite I2C SCL (pin 4) to Arduino SCL
+
+  Optional connections to utilize GPIO triggering:
+  LIDAR-Lite GPIOA   (pin 5) to Arduino Digital 2
+  LIDAR-Lite GPIOB   (pin 6) to Arduino Digital 3
+
+  (Capacitor recommended to mitigate inrush current when device is enabled)
+  680uF capacitor (+) to Arduino 5V
+  680uF capacitor (-) to Arduino GND
+
+  See the Operation Manual for wiring diagrams and more information
+
+  ------------------------------------------------------------------------------*/
 #include <Wire.h>
 #include "GarminLidarliteV4.h"
 
