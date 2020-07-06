@@ -30,7 +30,7 @@ This example shows methods for running the LIDAR-Lite v4 LED and read distance c
 This example shows methods for running two LIDAR-Lite v4 LED and read distance continuous.
 
 ### temperature
-This example shows how to read the temerature from LIDAR-Lite v4 LED sensor.
+This example shows how to read the temperature from LIDAR-Lite v4 LED sensor.
 
 ### lowpower
 This example shows how to take single distance measurements with a
