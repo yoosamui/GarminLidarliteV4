@@ -32,8 +32,12 @@ This example shows methods for running two LIDAR-Lite v4 LED and read distance c
 ### temperature
 This example shows how to read the temerature from LIDAR-Lite v4 LED sensor.
 
+### lowpower
+This example shows how to take single distance measurements with a
+  LIDAR-Lite v4 LED using only the I2C port in a lower power state.
+
 ### version
-This example shows how to read the temerature from LIDAR-Lite v4 LED sensor.
+This example prints the version of the LIDAR-Lite v4 LED sensor.
 
 ## Version History
 
@@ -47,5 +51,5 @@ This example shows how to read the temerature from LIDAR-Lite v4 LED sensor.
 
 ## License
 Copyright (c) 2018 Garmin Ltd. or its subsidiaries. Distributed under the Apache 2.0 License.
-Maintainer Juan R. Gonzalez
+Maintainer Juan R. González
 See [LICENSE](LICENSE) for further details.
