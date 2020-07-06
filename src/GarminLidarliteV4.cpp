@@ -230,6 +230,27 @@ uint8_t GarminLidarliteV4::distanceContinuous(uint16_t *distance, uint8_t addres
     return newDistance;
 }
 
+//---------------------------------------------------------------------
+// Read Single Distance Measurement
+//
+// This is the simplest form of taking a measurement. This is a
+// blocking function as it will not return until a range has been
+// taken and a new distance measurement can be read.
+//---------------------------------------------------------------------
+uint8_t GarminLidarliteV4::distanceSingle(uint16_t *distance, uint8_t lidarliteAddress)
+{
+    // 1. Trigger range measurement.
+    takeRange(lidarliteAddress);
+
+    // 2. Wait for busyFlag to indicate device is idle.
+    waitForBusy(lidarliteAddress);
+
+    // 3. Read new distance data from device registers
+    *distance = readDistance(lidarliteAddress);
+
+    return 1;
+}
+
 /*------------------------------------------------------------------------------
 Enable or sidabe Flash storage
 
@@ -242,15 +263,39 @@ parameters
   enable: enable or disable the flash storage
 
 ------------------------------------------------------------------------------*/
-void GarminLidarliteV4::enableFlash(bool enable)
+void GarminLidarliteV4::enableFlash(bool enable, uint8_t lidarliteAddress)
 {
     uint8_t dataByte = enable ? 0x11 : 0x00;
 
-    if (!write(ENABLE_FLASH_STORAGE, &dataByte, 1, LIDARLITE_ADDR_DEFAULT))
+    if (!write(ENABLE_FLASH_STORAGE, &dataByte, 1, lidarliteAddress))
         notifyWriteError(ENABLE_FLASH_STORAGE);
 
     // inportand! Give LIDAR time to write the register
     delay(100);
+}
+
+// ----------------------------------------------------------------------
+// ** To utilize the low power capabilities of the LIDAR-Lite v4 LED,
+//    turn off high accuracy mode and then switch on asynchronous mode.
+// ** Note that when defeating high accuracy mode, repeatability
+//    of measurements is reduced.
+// ** Note that while in asynchronous mode, minimum time between
+//    measurements is 100 milliseconds.
+// ----------------------------------------------------------------------
+void GarminLidarliteV4::enableLowpower(bool enable, uint8_t lidarliteAddress)
+{
+    uint8_t dataByte = 0x00;
+    write(0xEB, &dataByte, 1, lidarliteAddress);  // Turn off high accuracy mode
+
+    if (enable) {
+        write(0xE2, &dataByte, 1, lidarliteAddress);  // Turn on asynchronous mode
+    } else {
+        dataByte = 0x01;
+        write(0xE2, &dataByte, 1, lidarliteAddress);  // Turn on synchronous mode
+
+        dataByte = 0x14;
+        write(0xEB, &dataByte, 1, lidarliteAddress);  // Turn on high accuracy mode
+    }
 }
 
 bool GarminLidarliteV4::useBothAddresses()
@@ -284,6 +329,10 @@ bool GarminLidarliteV4::setI2Caddr(uint8_t newAddress, uint8_t addressResponseCo
         return false;
     }
 
+    // Check if address is within range
+    if (lidarliteAddress < 0x08 || lidarliteAddress > 0x77) {
+        return false;
+    }
     // Check if addressResponseControl is within range
     if (addressResponseControl > 2) {
         return false;
